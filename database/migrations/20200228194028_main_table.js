@@ -6,7 +6,10 @@ exports.up = async function(knex) {
       .unique()
       .notNullable();
     tbl.string("password", 64).notNullable();
-    tbl.integer("phone_number").notNullable();
+    tbl
+      .integer("phone_number")
+      .notNullable()
+      .unique();
   });
   await knex.schema.createTable("frequency", tbl => {
     tbl.increments();
