@@ -23,7 +23,7 @@ router.post("/register", (request, response) => {
 });
 
 router.post("/login", (request, response) => {
-  let { username, password, phone_number } = request.body;
+  let { username, password } = request.body;
 
   Users.findBy({ username })
     .first()
