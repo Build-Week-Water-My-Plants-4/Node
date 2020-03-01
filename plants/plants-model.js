@@ -48,3 +48,4 @@ function addFrequency(frequency, plantId) {
   frequency.plant_id = plantId;
   return db("frequency").insert(frequency);
 }
+//
