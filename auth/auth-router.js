@@ -23,7 +23,7 @@ router.post("/register", (request, response) => {
 });
 
 router.post("/login", (request, response) => {
-  let { username, password, phone_number } = request.body;
+  let { username, password } = request.body;
 
   Users.findBy({ username })
     .first()
@@ -35,6 +35,7 @@ router.post("/login", (request, response) => {
           token
         });
       } else {
+        console.log(request.body);
         response.status(401).json({ message: "Invalid credentials" });
       }
     })
@@ -46,8 +47,9 @@ router.post("/login", (request, response) => {
 
 function generateToken(user) {
   const payload = {
-    subject: user.id,
-    username: user.username
+    id: user.id,
+    username: user.username,
+    number: user.phone_number
   };
   const options = {
     expiresIn: "8h"

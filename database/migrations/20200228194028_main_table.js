@@ -23,7 +23,7 @@ exports.up = async function(knex) {
     tbl
       .integer("frequency_id")
       .unsigned()
-      .notNullable()
+      // .notNullable()
       .references("id")
       .inTable("frequency")
       .onUpdate("CASCADE")
@@ -33,7 +33,7 @@ exports.up = async function(knex) {
       .unsigned()
       .notNullable()
       .references("id")
-      .inTable("frequency")
+      .inTable("users")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
   });
