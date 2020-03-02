@@ -5,13 +5,13 @@ module.exports = {
   find,
   findBy,
   findById,
-  findUserPlants
+  update
 };
 
 function find() {
   return db("users")
     .orderBy([{ column: "id" }, { column: "username", order: "desc" }])
-    .select("id", "username");
+    .select("id", "username", "phone_number");
 }
 
 function findBy(filter) {
@@ -26,11 +26,16 @@ function findById(id) {
   return db("users")
     .where({ id })
     .first()
-    .select("id", "username");
+    .select("id", "username", "phone_number");
 }
 
-function findUserPlants(user_id) {
-  return db("users as u")
-    .join("plants as p", "u.id", "p.id")
-    .where("u.id", user_id);
+function update(id, user) {
+  return db("users")
+    .where({ id })
+    .update(user)
+    .then(count => {
+      return count > 0 ? this.findById(id) : null;
+    });
 }
+
+////
