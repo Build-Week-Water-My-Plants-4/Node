@@ -11,23 +11,11 @@ exports.up = async function(knex) {
       .notNullable()
       .unique();
   });
-  await knex.schema.createTable("frequency", tbl => {
-    tbl.increments();
-    tbl.integer("amount").notNullable();
-    tbl.string("time").notNullable();
-  });
   await knex.schema.createTable("plants", tbl => {
     tbl.increments();
     tbl.string("nickname", 128).notNullable();
     tbl.string("species", 128);
-    tbl
-      .integer("frequency_id")
-      .unsigned()
-      // .notNullable()
-      .references("id")
-      .inTable("frequency")
-      .onUpdate("CASCADE")
-      .onDelete("CASCADE");
+    tbl.string("frequency", 24).notNullable();
     tbl
       .integer("user_id")
       .unsigned()
