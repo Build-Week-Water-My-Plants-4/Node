@@ -5,8 +5,6 @@ module.exports = {
   findPlantByUID,
   findById,
   addPlant,
-  findFrequency,
-  addFrequency,
   remove,
   update
 };
@@ -16,29 +14,13 @@ function findPlants() {
 }
 
 async function findPlantByUID(id) {
-  await db("users")
-    .join("plants", "users.id", "plants.id")
-    .where("plants.id", id)
-    .join("frequency", "plants.id", "freqency.id")
-    .select(
-      "plants.id",
-      "plants.nickname",
-      "plants.species",
-      "frequency.amount",
-      "frequency.time"
-    );
+  await db("plants").where("user_id", id);
 }
 
 function findById(id) {
   return db("plants")
     .where({ id })
     .first();
-}
-
-function findFrequency(id) {
-  return db("frequency_id")
-    .join("plants", "frequency.id", "plants.id")
-    .where("frequency.id", id);
 }
 
 async function addPlant(plant, id) {
@@ -48,13 +30,8 @@ async function addPlant(plant, id) {
     .select("plant_id", "nickname", "species");
 }
 
-function addFrequency(frequency, plantId) {
-  frequency.plant_id = plantId;
-  return db("frequency").insert(frequency);
-}
-
-function remove(id) {
-  return db("plants")
+async function remove(id) {
+  await db("plants")
     .where({ id })
     .del();
 }
