@@ -1,41 +1,27 @@
 const db = require("../database/dbConfig");
 
 module.exports = {
+  findPlants,
   findPlantByUID,
+  findById,
   addPlant,
-  findFrequency
+  remove,
+  update
 };
 
+function findPlants() {
+  return db("plants");
+}
+
 async function findPlantByUID(id) {
-  await db("users")
-    .join("plants", "users.id", "plants.id")
-    .where("plants.id", id)
-    .join("frequency", "plants.id", "freqency.id")
-    .select(
-      "plants.id",
-      "plants.nickname",
-      "plants.species",
-      "frequency.amount",
-      "frequency.time"
-    );
+  await db("plants").where("user_id", id);
 }
 
-function findFrequency(id) {
-  return db("frequency_id")
-    .join("plants", "frequency.id", "plants.id")
-    .where("frequency.id", id);
+function findById(id) {
+  return db("plants")
+    .where({ id })
+    .first();
 }
-
-// async function addPlant(plant, id) {
-//   const [plant_id] = await db("plants").insert(plant, "user_id");
-//   await db("users")
-//     .insert({ user_id: id }, (plant_id, plant_id), "plant_id", "username")
-//     .then(ids => {
-//       const id = ids[0];
-//       return findById(id);
-//     });
-//   return findById(plant_id);
-// }
 
 async function addPlant(plant, id) {
   plant.user_id = id;
@@ -44,8 +30,17 @@ async function addPlant(plant, id) {
     .select("plant_id", "nickname", "species");
 }
 
-function addFrequency(frequency, plantId) {
-  frequency.plant_id = plantId;
-  return db("frequency").insert(frequency);
+async function remove(id) {
+  await db("plants")
+    .where({ id })
+    .del();
 }
-//
+
+function update(id, plant) {
+  return db("plants")
+    .where({ id })
+    .update(plant)
+    .then(count => {
+      return count > 0 ? this.findById(id) : null;
+    });
+}

@@ -4,42 +4,42 @@ exports.seed = function(knex) {
       id: 1,
       nickname: "big ass banana plant",
       species: "",
-      frequency_id: 1,
+      frequency: "Once Monthly",
       user_id: 1
     },
     {
       id: 2,
       nickname: "Wheatie",
       species: "MJ",
-      frequency_id: 2,
+      frequency: "Once Monthly",
       user_id: 1
     },
     {
       id: 3,
       nickname: "Planty",
       species: "Plant",
-      frequency_id: 3,
+      frequency: "Twice Monthly",
       user_id: 2
     },
     {
       id: 4,
       nickname: "Gerald",
       species: "cactus",
-      frequency_id: 4,
+      frequency: "Four Times Weekly",
       user_id: 2
     },
     {
       id: 5,
       nickname: "MCCRAIG",
       species: "ROCK",
-      frequency_id: 5,
+      frequency: "Four Times Weekly",
       user_id: 3
     },
     {
       id: 6,
       nickname: "Lucy & Co",
       species: "Petunias",
-      frequency_id: 6,
+      frequency: "Four Times Weekly",
       user_id: 4
     }
   ]);
