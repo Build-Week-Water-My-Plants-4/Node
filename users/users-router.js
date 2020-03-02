@@ -13,6 +13,20 @@ router.get("/", (request, response) => {
     });
 });
 
+router.get("/:id", (request, response) => {
+  const { id } = request.params;
+  Users.findById(id)
+    .then(user => {
+      response.status(200).json(user);
+    })
+    .catch(error => {
+      console.log("Error: ", error);
+      response
+        .status(500)
+        .json({ errorMessage: "Failed to retrieve user by ID" });
+    });
+});
+
 router.put("/:id", (req, res) => {
   const id = req.params.id;
   const updatedUser = req.body;
