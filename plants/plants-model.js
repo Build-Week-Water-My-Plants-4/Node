@@ -1,28 +1,23 @@
 const db = require("../database/dbConfig");
 
 module.exports = {
-  findPlants,
-  findPlantByUID,
+  findAll,
+  findByToken,
   findById,
   addPlant,
   remove,
   update
 };
 
-function findPlants() {
+function findAll() {
   return db("plants");
 }
 
-async function findPlantByUID(id) {
-  await db("plants")
-    .join("users")
-    .where("users.id", id)
-    .select("*");
+function findByToken(id) {
+  return db("plants")
+    .select("id", "nickname", "species", "frequency", "user_id")
+    .where("user_id", id);
 }
-
-// function findPlantByUID(id) {
-//   return db("plants").where("user_id", id);
-// }
 
 function findById(id) {
   return db("plants")

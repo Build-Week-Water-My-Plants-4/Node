@@ -1,13 +1,14 @@
 const router = require("express").Router();
 const Plants = require("./plants-model");
 
-// Gets the plants for a user ❌
+// Gets the plants for a user ✅
+// get plants only belonging to the logged in user
 router.get("/", (req, res) => {
   console.log(req.decodedToken);
   // const { id } = req.params;
   const id = req.decodedToken.id;
 
-  Plants.findPlantByUID(id)
+  Plants.findByToken(id)
     .then(plant => {
       console.log(plant);
       res.status(200).json(plant);
@@ -18,48 +19,51 @@ router.get("/", (req, res) => {
     });
 });
 
-// GET / api / plants;
-// router.get("/", (req, res) => {
-//   Plants.findPlants()
-//     .then(plants => {
-//       if (plants) {
-//         res.status(200).json({ plants });
-//       } else {
-//         res
-//           .status(404)
-//           .json({ message: "There are no plants in the  database." });
-//       }
-//     })
-//     .catch(error => {
-//       console.log("Error: ", error);
-//       res
-//         .status(500)
-//         .json({ message: "There was an error retrieving plants." });
-//     });
-// });
+// GET / api / plants ✅
+// GET all plants
+router.get("/all", (req, res) => {
+  Plants.findAll()
+    .then(plants => {
+      if (plants) {
+        res.status(200).json({ plants });
+      } else {
+        res
+          .status(404)
+          .json({ message: "There are no plants in the  database." });
+      }
+    })
+    .catch(error => {
+      console.log("Error: ", error);
+      res
+        .status(500)
+        .json({ message: "There was an error retrieving plants." });
+    });
+});
 
-// GET /api/plants/:id
-// router.get("/:id", (req, res) => {
-//   const plants_id = req.params.id;
-//   Plants.findById(plants_id)
-//     .then(plant => {
-//       if (plant) {
-//         res.status(200).json({ plant });
-//       } else {
-//         res
-//           .status(404)
-//           .json({ message: "There is no plant in the database with that id." });
-//       }
-//     })
-//     .catch(error => {
-//       console.log("get plant by id error", error);
-//       res
-//         .status(500)
-//         .json({ message: "There was an error getting plant by id." });
-//     });
-// });
+// GET /api/plants/:id ✅
+// get plant by its specific id
+router.get("/:id", (req, res) => {
+  const plants_id = req.params.id;
+  Plants.findById(plants_id)
+    .then(plant => {
+      if (plant) {
+        res.status(200).json({ plant });
+      } else {
+        res
+          .status(404)
+          .json({ message: "There is no plant in the database with that id." });
+      }
+    })
+    .catch(error => {
+      console.log("get plant by id error", error);
+      res
+        .status(500)
+        .json({ message: "There was an error getting plant by id." });
+    });
+});
 
-// POST /api/plants/:id
+// POST /api/plants/✅
+//Create plant from user token
 router.post("/", (req, res) => {
   const newPlant = req.body;
   const id = req.decodedToken.id;
@@ -77,7 +81,8 @@ router.post("/", (req, res) => {
     });
 });
 
-// PUT /api/plants/:id
+// PUT /api/plants/:id ✅
+// Edit plant by ID
 router.put("/:id", (req, res) => {
   const id = req.params.id;
   const updatedPlant = req.body;
@@ -97,7 +102,8 @@ router.put("/:id", (req, res) => {
     });
 });
 
-// DELETE /api/plants/:id
+// DELETE /api/plants/:id ✅
+// Delete plant by id
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
   Plants.remove(id)
