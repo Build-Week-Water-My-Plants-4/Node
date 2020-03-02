@@ -45,6 +45,8 @@ router.post("/login", (request, response) => {
     });
 });
 
+module.exports = router;
+
 function generateToken(user) {
   const payload = {
     id: user.id,
@@ -56,5 +58,3 @@ function generateToken(user) {
   };
   return jwt.sign(payload, jwtSecret, options);
 }
-
-module.exports = router;

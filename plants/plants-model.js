@@ -14,8 +14,15 @@ function findPlants() {
 }
 
 async function findPlantByUID(id) {
-  await db("plants").where("user_id", id);
+  await db("plants")
+    .join("users")
+    .where("users.id", id)
+    .select("*");
 }
+
+// function findPlantByUID(id) {
+//   return db("plants").where("user_id", id);
+// }
 
 function findById(id) {
   return db("plants")
