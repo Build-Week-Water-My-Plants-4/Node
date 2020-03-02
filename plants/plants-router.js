@@ -2,15 +2,15 @@ const router = require("express").Router();
 const Plants = require("./plants-model");
 
 // Gets the plants for a user ❌
-router.get("/:id", (req, res) => {
-  console.log(req.decodedtoken);
-  const { id } = req.params;
-  // const id = req.decodedtoken.id;
+router.get("/", (req, res) => {
+  console.log(req.decodedToken);
+  // const { id } = req.params;
+  const id = req.decodedToken.id;
 
   Plants.findPlantByUID(id)
-    .then(res => {
-      console.log(res.data);
-      res.status(200).json(res);
+    .then(plant => {
+      console.log(plant);
+      res.status(200).json(plant);
     })
     .catch(err => {
       console.log(err);
@@ -18,7 +18,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// GET /api/plants
+// GET / api / plants;
 // router.get("/", (req, res) => {
 //   Plants.findPlants()
 //     .then(plants => {
@@ -39,30 +39,30 @@ router.get("/:id", (req, res) => {
 // });
 
 // GET /api/plants/:id
-router.get("/:id", (req, res) => {
-  const plants_id = req.params.id;
-  Plants.findById(plants_id)
-    .then(plant => {
-      if (plant) {
-        res.status(200).json({ plant });
-      } else {
-        res
-          .status(404)
-          .json({ message: "There is no plant in the database with that id." });
-      }
-    })
-    .catch(error => {
-      console.log("get plant by id error", error);
-      res
-        .status(500)
-        .json({ message: "There was an error getting plant by id." });
-    });
-});
+// router.get("/:id", (req, res) => {
+//   const plants_id = req.params.id;
+//   Plants.findById(plants_id)
+//     .then(plant => {
+//       if (plant) {
+//         res.status(200).json({ plant });
+//       } else {
+//         res
+//           .status(404)
+//           .json({ message: "There is no plant in the database with that id." });
+//       }
+//     })
+//     .catch(error => {
+//       console.log("get plant by id error", error);
+//       res
+//         .status(500)
+//         .json({ message: "There was an error getting plant by id." });
+//     });
+// });
 
 // POST /api/plants/:id
-router.post("/:id", (req, res) => {
+router.post("/", (req, res) => {
   const newPlant = req.body;
-  const { id } = req.params;
+  const id = req.decodedToken.id;
   Plants.addPlant(newPlant, id)
     .then(plant => {
       if (plant) {
@@ -99,10 +99,10 @@ router.put("/:id", (req, res) => {
 
 // DELETE /api/plants/:id
 router.delete("/:id", (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   Plants.remove(id)
     .then(count => {
-      if (count) {
+      if (!count) {
         res
           .status(200)
           .json({ message: "The plant was successfully removed." });
