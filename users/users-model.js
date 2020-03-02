@@ -5,7 +5,7 @@ module.exports = {
   find,
   findBy,
   findById,
-  findUserPlants
+  update
 };
 
 function find() {
@@ -29,8 +29,11 @@ function findById(id) {
     .select("id", "username");
 }
 
-function findUserPlants(user_id) {
-  return db("users as u")
-    .join("plants as p", "u.id", "p.id")
-    .where("u.id", user_id);
+function update(id, user) {
+  return db("users")
+    .where({ id })
+    .update(user)
+    .then(count => {
+      return count > 0 ? this.findById(id) : null;
+    });
 }

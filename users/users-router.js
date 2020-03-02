@@ -13,23 +13,20 @@ router.get("/", (request, response) => {
     });
 });
 
-router.get("/:userid/plants", (req, res) => {
-  const userid = req.params.userid;
-  Users.findUserPlants(userid)
-    .then(plants => {
-      if (plants) {
-        res.status(200).json(plants);
+router.put("/:id", (req, res) => {
+  const id = req.params.id;
+  const updatedUser = req.body;
+  Users.update(id, updatedUser)
+    .then(user => {
+      if (user) {
+        res.status(201).json(user);
       } else {
-        res
-          .status(404)
-          .json({ message: "There are no plants for that user id." });
+        res.status(500).json({ message: "Could not update that user" });
       }
     })
     .catch(error => {
-      console.log("get plants by user_id error", error);
-      res
-        .status(500)
-        .json({ message: "There was an error getting plants by user_id." });
+      console.log("update user error", error);
+      res.status(500).json({ message: "There was an error updating user" });
     });
 });
 
