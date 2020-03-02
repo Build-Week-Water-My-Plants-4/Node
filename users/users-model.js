@@ -11,7 +11,7 @@ module.exports = {
 function find() {
   return db("users")
     .orderBy([{ column: "id" }, { column: "username", order: "desc" }])
-    .select("id", "username");
+    .select("id", "username", "phone_number");
 }
 
 function findBy(filter) {
@@ -26,7 +26,7 @@ function findById(id) {
   return db("users")
     .where({ id })
     .first()
-    .select("id", "username");
+    .select("id", "username", "phone_number");
 }
 
 function update(id, user) {
