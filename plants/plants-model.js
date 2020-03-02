@@ -1,10 +1,19 @@
 const db = require("../database/dbConfig");
 
 module.exports = {
+  findPlants,
   findPlantByUID,
+  findById,
   addPlant,
-  findFrequency
+  findFrequency,
+  addFrequency,
+  remove,
+  update
 };
+
+function findPlants() {
+  return db("plants");
+}
 
 async function findPlantByUID(id) {
   await db("users")
@@ -20,22 +29,17 @@ async function findPlantByUID(id) {
     );
 }
 
+function findById(id) {
+  return db("plants")
+    .where({ id })
+    .first();
+}
+
 function findFrequency(id) {
   return db("frequency_id")
     .join("plants", "frequency.id", "plants.id")
     .where("frequency.id", id);
 }
-
-// async function addPlant(plant, id) {
-//   const [plant_id] = await db("plants").insert(plant, "user_id");
-//   await db("users")
-//     .insert({ user_id: id }, (plant_id, plant_id), "plant_id", "username")
-//     .then(ids => {
-//       const id = ids[0];
-//       return findById(id);
-//     });
-//   return findById(plant_id);
-// }
 
 async function addPlant(plant, id) {
   plant.user_id = id;
@@ -48,4 +52,18 @@ function addFrequency(frequency, plantId) {
   frequency.plant_id = plantId;
   return db("frequency").insert(frequency);
 }
-//
+
+function remove(id) {
+  return db("plants")
+    .where({ id })
+    .del();
+}
+
+function update(id, plant) {
+  return db("plants")
+    .where({ id })
+    .update(plant)
+    .then(count => {
+      return count > 0 ? this.findById(id) : null;
+    });
+}
