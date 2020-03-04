@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/Build-Week-Water-My-Plants-4/Node#readme",
   "devDependencies": {
+    "cross-env": "^7.0.1",
+    "jest": "^25.1.0",
     "nodemon": "^2.0.2",
-    "jest": "^25.1.0"
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -35,11 +37,5 @@
     "knex": "^0.20.10",
     "pg": "^7.18.2",
     "sqlite3": "^4.1.1"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.1",
-    "jest": "^25.1.0",
-    "nodemon": "^2.0.2",
-    "supertest": "^4.0.2"
   }
 }
