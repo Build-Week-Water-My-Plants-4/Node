@@ -21,6 +21,10 @@
     "url": "https://github.com/Build-Week-Water-My-Plants-4/Node/issues"
   },
   "homepage": "https://github.com/Build-Week-Water-My-Plants-4/Node#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "jest": "^25.1.0"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
