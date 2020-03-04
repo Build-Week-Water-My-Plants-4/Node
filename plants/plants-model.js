@@ -29,7 +29,7 @@ async function addPlant(plant, id) {
   plant.user_id = id;
   return db("plants")
     .insert(plant)
-    .select("plant_id", "nickname", "species");
+    .select("plant_id", "nickname", "species", "frequency");
 }
 
 async function remove(id) {
